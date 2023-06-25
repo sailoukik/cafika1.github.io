@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Form 1 (Booking)</title>
+    <link rel="stylesheet" href="form.css" >
+  </head>
+  <body>
+    <div class="testbox">
+    <form method="post" name="google-sheet" >
+      <div class="banner">
+        <h1>CCafe Booking Form-shows-room2</h1>
+      </div>
+      <br/>
+      <fieldset>
+        <legend>Reservation Details</legend>
+        <div class="columns">
+          <div class="item">
+            <label for="fname">First Name<span>*</span></label>
+            <input id="fname" type="text" name="fname" />
+          </div>
+          <div class="item">
+            <label for="lname"> Last Name<span>*</span></label>
+            <input id="lname" type="text" name="lname" />
+          </div>
+          <div class="item">
+            <label for="address">Address<span>*</span></label>
+            <input id="address" type="text"   name="address" />
+          </div>
+          <div class="item">
+            <label for="city">City<span>*</span></label>
+            <input id="city" type="text"   name="city" />
+          </div>
+          <div class="item">
+            <label for="state">State<span>*</span></label>
+            <input id="state" type="text"   name="state" />
+          </div>
+          <div class="item">
+            <label for="email">Email Address<span>*</span></label>
+            <input id="email" type="text"   name="email" />
+          </div>
+          <div class="item">
+            <label for="phone">Phone<span>*</span></label>
+            <input id="phone" type="tel"   name="phone" />
+          </div>
+        </div>
+      </fieldset>
+      <br/>
+      <fieldset>
+      <legend>Dates</legend>
+      <div class="columns">
+      <div class="item">
+      <label for="Formdate">From Date <span>*</span></label>
+      <input id="Formdate" type="date" name="Fromdate" />
+      <i class="fas fa-calendar-alt"></i>
+      </div>
+      <div class="item">
+      <label for="Todate">To Date <span>*</span></label>
+      <input id="Todate" type="date" name="Todate" />
+      <i style="background-color:aquamarine" class="fas fa-calendar-alt"></i>
+      </div>
+      <div class="item">
+      <p>In Time </p>
+      <select>
+      <option value="" disabled selected>Select time</option>
+      <option value="1" >Morning</option>
+      <option value="2">Afternoon</option>
+      <option value="3">Evening</option>
+      </select>
+      </div>
+      <div class="item">
+      <p>Out Time </p>
+      <select>
+      <option  value="4" disabled selected>Select time</option>
+      <option value="5" >Morning</option>
+      <option value="6">Afternoon</option>
+      <option value="7">Evening</option>
+      </select>
+      </div>    
+      <div class="item">
+      <p>How many adults are coming?</p>
+      <div class="item">
+        <input id="Acount" type="number" placeholder="      count"  name="Acount" />
+      </div>
+      </div>    
+      <div class="item">
+      <p>How many children are coming?</p>
+      <div class="item">
+        <input id="Ccount" type="number" placeholder="      count"  name="Ccount" />
+      </div>
+      </div>   
+      <div class="item" >
+      <label for="hours">Number of Hours</label>
+      <input id="hours" type="number" placeholder="Duration"name="hours" />
+      </div>
+      <div class="item">
+        <label for="amount">Amount</label>
+        <input id="amount" type="number"  placeholder="10k per hour" name="amount" />
+        </div>
+      </div>
+      <div class="item">
+      <label for="instruction">Special Instructions</label>
+      <textarea id="instruction" rows="3"></textarea>
+      <h3>qr code</h3>
+      <p> you will get the qr code after the registartion after please make shoure to sake it </p>
+      </div>
+      </fieldset>
+      <div class="btn-block">
+      <button type="submit" value="send message" onclick="generateqr();sendemail()">Submit</button>
+      </div>
+      <div id="qrcode" >
+
+      </div>
+    </form>
+    </div>
+    <script>
+        const scriptURL = 'https://script.google.com/macros/s/AKfycby-RB7hKJT8ucv0p5SWDASpSbZ8qkXSxCbelLOGjSh-EBEmvXuJt1kJ5Hey5jgQPavP-w/exec'
+        const form = document.forms['google-sheet']
+      
+        form.addEventListener('submit', e => {
+          e.preventDefault()
+          fetch(scriptURL, { method: 'POST', body: new FormData(form)})
+            .then(response => alert("Thanks for Contacting us..! We Will Contact You Soon..."))
+            .catch(error => console.error('Error!', error.message))
+        })
+      </script>
+                  <script>
+                    function generateqr() {
+                      var fname = document.getElementById('fname').value;
+                      var lname = document.getElementById('lname').value;
+                      var address = document.getElementById('address').value;
+                      var city = document.getElementById('city').value;
+                      var state = document.getElementById('state').value;
+                      var email = document.getElementById('email').value;
+                      var phone = document.getElementById('phone').value;
+                      var Formdate = document.getElementById('Formdate').value;
+                      var Todate = document.getElementById('Todate').value;
+                      var hours = document.getElementById('hours').value;
+                      
+            
+                     console.log( "<br>fname" + fname + "lname" + lname+ "address" + address+ "city" + city+ "state " + state+ "email" + email+ "phone " + phone+ "Formdate " + Formdate+ "Todate " + Todate+ "hours" + hours);
+            
+                     var url = "https://chart.googleapis.com/chart?cht=qr&chs=200x200&chl=Name:"+ "<br>room-2"+"<br>fname:" + fname +"<br>"+ "lname:" + lname+"<br>"+ "address:" + address+"<br>"+ "city:" + city+"<br>"+ "state: " + state+"<br>"+ "email:" + email+"<br>"+ "phone: " + phone+"<br>"+ "Formdate:" + Formdate+"<br>"+ "Todate:" + Todate+"<br>"+ "hours:" + hours;
+            
+                     var ifr = `<iframe src="${url}" height="200" width="200" margin-left="500px"> </iframe>`;
+            
+                     document.getElementById('qrcode').innerHTML = ifr;
+                     }  
+                  </script>
+                  <script src="https://smtpjs.com/v3/smtp.js"></script>
+                  <script> 
+                   function sendemail(){
+                      var fname = document.getElementById('fname').value;
+                      var lname = document.getElementById('lname').value;
+                      var address = document.getElementById('address').value;
+                      var city = document.getElementById('city').value;
+                      var state = document.getElementById('state').value;
+                      var email = document.getElementById('email').value;
+                      var phone = document.getElementById('phone').value;
+                      var Formdate = document.getElementById('Formdate').value;
+                      var Todate = document.getElementById('Todate').value;
+                      var hours = document.getElementById('hours').value;
+                     Email.send({
+                     Host : "smtp.elasticemail.com",
+                     Username : "cafikajublieehills@gmail.com",
+                     Password : "77E68D2816F3938CBDEFCC325E0457772371",
+                     To : document.getElementById('email').value,
+                     From : "cafikajublieehills@gmail.com",
+                     Subject : "To Conform your reservation at room-2 in cafe",
+                     Body : "you have registered at the cafe at the room-1 we will provide you all the things required to you <br>your booked place:room-1"+"<br>fname:" + fname +"<br>:"+ "lname:" + lname+"<br>"+ "address:" + address+"<br>"+ "city:" + city+"<br>"+ "state:" + state+"<br>"+ "email:" + email+"<br>"+ "phone:" + phone+"<br>"+ "Formdate:" + Formdate+"<br>"+ "Todate:" + Todate+"<br>"+ "hours:" + hours+"<br>this are the registration details of your booking"+"<br>we will contact you as soon as possible and your responce is noted "+"we welocome to our cafe we promisse you that you will have best time in our cafe",
+                     }).then(
+                     message => alert(message)
+                     );
+                     }
+                  </script>
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  </body>
+</html>
